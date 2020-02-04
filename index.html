@@ -108,7 +108,6 @@
                     $('#requestsearch').show();  
                     try {
                         [lat, lng] = await getCoords(postalCode);
-                        console.log("got lat and long");
                         coords.map(obj => {
                             obj.distance = Math.pow(obj.lat - lat, 2) + Math.pow(obj.lng - lng, 2);
                         })
