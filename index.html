@@ -35,18 +35,30 @@
  
 </script>
         <script id="item-template" type="text/x-handlebars-template">
-           
+            <table class="table"> 
+                <thead> 
+                    <tr> 
+                        <th>Date</th> 
+                        <th>Request</th> 
+                        <th>Remarks</th> 
+                        <th>Postal Code</th> 
+                    </tr>                                 
+                </thead>                             
+                <tbody >
+                    
+                 
                 {{#each this}}
                 <tr> 
-                    <th>{{date}}</th> 
+                    <td>{{date}}</td> 
                     <td>{{item}}</td> 
                     <td>{{comments}}</td> 
                     <td>S({{postalcode}})</td> 
                 </tr>                   
               
                 {{/each}}
-           
-            </script>         
+                </tbody>                             
+            </table>    
+        </script>         
         <script type="text/javascript">
             $(document).ready(async function(){
                 // Get latitude/longitude coordinates of a postal code from OneMap.
@@ -111,7 +123,7 @@
                     e.preventDefault();
                     const postalCode = $('#searchpostalcode').val();
                     $('#requestlist').hide();
-                    $('#searchpostalcodeform').hide();
+                    //$('#searchpostalcodeform').hide();
                     $('#requestsearch').show();  
                     try {
                         [lat, lng] = await getCoords(postalCode);
@@ -135,15 +147,34 @@
             });
         </script>         
         <script id="searchresults" type="text/x-handlebars-template">
-                    <ul class="requestsearch">
+                    <div class="requestsearch">
                         Nearest neighbour:
-                        {{#each this}}
-                            <li>                                          
-                                <p>{{item}} at S({{postalcode}})</p>
-                                                    
-                            </li>
-                        {{/each}}
-                    </ul>
+                        <table class="table"> 
+                            <thead> 
+                                <tr> 
+                                    <th>Date</th> 
+                                    <th>Request</th> 
+                                    <th>Remarks</th> 
+                                    <th>Postal Code / distance</th> 
+                                </tr>                                 
+                            </thead>                             
+                            <tbody >
+                                
+                             
+                            {{#each this}}
+                            <tr> 
+                                <td>{{date}}</td> 
+                                <td>{{item}}</td> 
+                                <td>{{comments}}</td> 
+                                <td>S({{postalcode}}) / {{distance}} km</td> 
+                            </tr>                   
+                          
+                            {{/each}}
+                            </tbody>                             
+                        </table>    
+                        
+                      
+                    </div>
                     </script>         
     </head>     
     <body data-spy="scroll" data-target="nav">
@@ -163,17 +194,7 @@
                             <input type="text" class="form-control" id="searchpostalcode" placeholder="Enter your postal code"> 
                         </div>                         
                         <button type="submit" class="btn btn-block btn-dark" value="Search Requests">Search Requests</button>
-                        <table class="table"> 
-                            <thead> 
-                                <tr> 
-                                    <th>Date</th> 
-                                    <th>Request</th> 
-                                    <th>Remarks</th> 
-                                    <th>Postal Code</th> 
-                                </tr>                                 
-                            </thead>                             
-                            <tbody id="requestlist"></tbody>                             
-                        </table>                         
+                        <div id="requestlist"></div>                                          
                     </form>                     
                     Search function is still work-in-progress.                            
                     <div id="requestlist"></div>                     
