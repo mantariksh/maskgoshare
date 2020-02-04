@@ -48,8 +48,19 @@
            
             </script>         
         <script type="text/javascript">
-            $(document).ready(function(){
-                    $('#submitrequest').submit(function(e) {
+            $(document).ready(async function(){
+                let getCoords = async (postalCode) => {
+                    const onemapRes = 
+                        await fetch(
+                            "https://developers.onemap.sg/commonapi/search?searchVal=" + 
+                            postalCode + 
+                            "&getAddrDetails=N&returnGeom=Y&pageNum=1");
+                    const onemapJson = await onemapRes.json();
+                    const lat = parseFloat(onemapJson['results'][0]['LATITUDE']);
+                    const lng = parseFloat(onemapJson['results'][0]['LONGITUDE']);
+                    return [lat, lng];
+                };
+                $('#submitrequest').submit(async function(e) {
                     e.preventDefault();
                     let form = $(this);
                     $.ajax({
@@ -74,23 +85,45 @@
                         }
                     });
                 });
-                    
-                
-
-                $('#searchpostalcodeform').submit(function(e) {
+                const allDataRes = await fetch(
+                    "https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1"
+                );
+                const allDataJson = await allDataRes.json();
+                const allData = allDataJson['sheet1'];
+                let coords = [];
+                for (let request of allData) {
+                    const postalCode = request.postalcode;
+                    try {
+                        [lat, lng] = await getCoords(postalCode);
+                        coords.push({...request, lat, lng});
+                    } catch(e) {
+                        console.log("invalid postal code: " + postalCode);
+                    }
+                }
+                $('#searchpostalcodeform').submit(async function(e) {
                     e.preventDefault();
+                    const postalCode = $('#searchpostalcode').val();
                     $('#requestlist').hide();
                     $('#searchpostalcodeform').hide();
                     $('#requestsearch').show();  
-                    $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1?postalcode='+$('#searchpostalcode').val(), function(data) {
-                        var template = Handlebars.compile($('#searchresults').html())
-                        $('#requestsearch').html(template(data.sheet1))
+                    try {
+                        [lat, lng] = await getCoords(postalCode);
+                        console.log("got lat and long");
+                        coords.map(obj => {
+                            obj.distance = Math.pow(obj.lat - lat, 2) + Math.pow(obj.lng - lng, 2);
                         })
-                    });
+                        coords.sort((a, b) => a.distance - b.distance);
+                        const template = Handlebars.compile($('#searchresults').html());
+                        $('#requestsearch').html(template(coords));
+                    } catch(e) {
+                        $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1?postalcode='+$('#searchpostalcode').val(), function(data) {
+                            var template = Handlebars.compile($('#searchresults').html())
+                            $('#requestsearch').html(template(data.sheet1))
+                        });
+                    }
+                });
             });
-
-            
-                </script>         
+        </script>         
         <script id="searchresults" type="text/x-handlebars-template">
                     <ul class="requestsearch">
                         Nearest neighbour:
