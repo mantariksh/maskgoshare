@@ -49,6 +49,7 @@
             </script>         
         <script type="text/javascript">
             $(document).ready(async function(){
+                // Get latitude/longitude coordinates of a postal code from OneMap.
                 let getCoords = async (postalCode) => {
                     const onemapRes = 
                         await fetch(
@@ -60,7 +61,9 @@
                     const lng = parseFloat(onemapJson['results'][0]['LONGITUDE']);
                     return [lat, lng];
                 };
-                $('#submitrequest').submit(async function(e) {
+                // TODO: Get coordinates of request at the time that it is made and store
+                // it in the Google Sheet.
+                $('#submitrequest').submit(function(e) {
                     e.preventDefault();
                     let form = $(this);
                     $.ajax({
@@ -85,6 +88,10 @@
                         }
                     });
                 });
+                // When the page loads, store all the request data and get the
+                // coordinates of each request.
+                // TODO: Edit Google Sheet to store latitude and longitude so that
+                // we don't have the query the API every time the page is loaded.
                 const allDataRes = await fetch(
                     "https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1"
                 );
@@ -115,6 +122,9 @@
                         const template = Handlebars.compile($('#searchresults').html());
                         $('#requestsearch').html(template(coords));
                     } catch(e) {
+                        // If we fail to get the coordinates of the searched postal code (e.g. if
+                        // invalid postal code is entered), revert to default behaviour, i.e. search
+                        // returned no results.
                         $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1?postalcode='+$('#searchpostalcode').val(), function(data) {
                             var template = Handlebars.compile($('#searchresults').html())
                             $('#requestsearch').html(template(data.sheet1))
