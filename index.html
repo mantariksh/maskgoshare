@@ -116,6 +116,7 @@
                     try {
                         [lat, lng] = await getCoords(postalCode);
                         coords.map(obj => {
+                            // Squared distance from searched postal code to request (x^2 + y^2)
                             obj.distance = Math.pow(obj.lat - lat, 2) + Math.pow(obj.lng - lng, 2);
                         })
                         coords.sort((a, b) => a.distance - b.distance);
