@@ -57,7 +57,7 @@
                 {{#each this}}
                 <tr> 
                     <td>{{ timestamp}}</td> 
-                    <td>{{item}}</td> 
+                    <td><a href="mailto:{{email}}?subject=MaskGoShare">{{item}}</a></td> 
                     <td>{{comments}}</td> 
                     <td>S({{postalcode}})</td> 
                 </tr>                   
@@ -174,7 +174,7 @@
                             {{#each this}}
                             <tr> 
                                 <td>{{timestamp}}</td> 
-                                <td>{{item}}</td> 
+                                <td><a href="mailto:{{email}}">{{item}}</a></td> 
                                 <td>{{comments}}</td> 
                                 <td>S({{postalcode}}) </td> 
                             </tr>                   
@@ -235,8 +235,8 @@
                             
                         </div>
                         <div class="form-group">                             
-                            <input type="text" class="form-control"   id="mailbox" placeholder="Your unit number" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="mailbox" aria-describedby="i.desc.928328055 i.err.928328055" name="entry.1453636306" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
-                            <label class="control-label small">Your unit number will be shown to people who are willing to help.</label>                             
+                            <input type="hidden" class="form-control"   id="mailbox" placeholder="Your unit number" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="mailbox" aria-describedby="i.desc.928328055 i.err.928328055" name="entry.1453636306" value="null" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+                            <!-- <label class="control-label small">Your unit number will be shown to people who are willing to help.</label>                             -->
                         </div>                         
                         
                         
