@@ -57,7 +57,7 @@
                 {{#each this}}
                 <tr> 
                     <td>{{ timestamp}}</td> 
-                    <td><a href="mailto:{{email}}?subject=MaskGoShare">{{item}}</a></td> 
+                    <td><a target="_top" href="mailto:{{email}}?subject=MaskGoShare">{{item}}</a></td> 
                     <td>{{comments}}</td> 
                     <td>S({{postalcode}})</td> 
                 </tr>                   
@@ -174,7 +174,7 @@
                             {{#each this}}
                             <tr> 
                                 <td>{{timestamp}}</td> 
-                                <td><a href="mailto:{{email}}">{{item}}</a></td> 
+                                <td><a target="_top" href="mailto:{{email}}">{{item}}</a></td> 
                                 <td>{{comments}}</td> 
                                 <td>S({{postalcode}}) </td> 
                             </tr>                   
@@ -210,15 +210,17 @@
                     <div id="requestlist"></div>                     
                     <div id="requestsearch"></div>   
                     <hr>
-                    This is a map of all 1-bedroom and 2-bedroom HDB rental flats. Individuals or families staying here may benefit from a little love and support. 
+                    This is a map of all 1-bedroom and 2-bedroom HDB rental flats. Individuals or families staying here may benefit from a little love and support. If you want to drop off some supplies with them, find the nearest blocks to you.
                     Buildings with 1-bedroom flats are highlighted in red.   <br/>               
                     <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1WsR_4uxrSDxYgdlqcMwYhtVQiWfnxLv5" width="100%" height="480"></iframe>
                 </div>
                 <div class="col-md-6 bg-clouds">
                     <h3><b>I need some supplies</b></h3> 
                     <p>If you really have a need for emergency supplies and would not mind some help from a neighbour, please fill in your request below and someone will hopefully get in touch.</p>
-                    
-                    <form action="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc7jZ8A4WeijukhNfxgXYrjS9Qt8UbuzcCcDJn7gZaMzOw9vw/formResponse" target="_self" method="POST" id="mG61Hd">
+                    <script>var submitted=false;</script>
+                            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='thanks.html';}"></iframe>
+
+                    <form action="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc7jZ8A4WeijukhNfxgXYrjS9Qt8UbuzcCcDJn7gZaMzOw9vw/formResponse"  target="hidden_iframe" onsubmit="submitted=true;" method="POST" id="mG61Hd">
                                                                         
                             <div class="form-group"> 
                                 <input type="text" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="item" aria-describedby="i.desc.1897964019 i.err.1897964019" name="entry.333478349" value="" dir="auto" data-initial-dir="auto" data-initial-value="" class="form-control" id="item" placeholder="Item you need and quantity">                               
