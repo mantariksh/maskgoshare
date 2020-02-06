@@ -2,28 +2,43 @@
 <html>
 	<!-- https://twitter.com/ottokyu -->
 	<head>
-		<title>SG Wuhan - Map Overview</title>
+		<title> Map Overview</title>
 		<meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <meta name="description" content="SG Wuhan - Map Overview">
+	    <meta name="description" content=" Map Overview">
 	    <link rel="icon" href="favicon.ico" type="image/x-icon">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-        <link rel="stylesheet" href="pulse.css" />
+ 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdn.onemap.sg/leaflet/onemap-leaflet.js"></script>
-        <script src="pulse.js"></script>
-        <script src="leader-line.min.js"></script>
-        
-		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+ 
 		<script>
 			$(document).ready(function(){
-				var data = [[1.2577323,103.8097962,"oldCase","66","Male","China, Wuhan","Shangri-La's Rasa Sentosa Resort and Spa","Singapore General Hospital","#1","China","19","confirmed-imported-case-of-novel-coronavirus-infection-in-singapore-multi-ministry-taskforce-ramps-up-precautionary-measures"],[1.3075996,103.8585204,"oldCase","53","Female","China, Wuhan","J8 Hotel","Tan Tock Seng Hospital, Raffles Hospital, Orchard Road, Marina Bay Sands, Gardens by the Bay","#2","China","20,21,22,23,24","two-more-cases-of-confirmed-imported-case-of-novel-coronavirus-infection-in-singapore"],[1.257763,103.810018,"oldCase","36","Male","China, Wuhan","Shangri-La's Rasa Sentosa Resort and Spa","Singapore General Hospital","#3","China","19","two-more-cases-of-confirmed-imported-case-of-novel-coronavirus-infection-in-singapore"],[1.25212715122,103.820006847,"oldCase","36","Male","China, Wuhan","Village Hotel Sentosa","Sengkang General Hospital, Universal Studios Singapore, Vivocity","#4","China","25,26,27","update-on-wuhan-coronavirus-infection-in-singapore"],[1.30817132582,103.900929093,"oldCase","56","Female","China, Wuhan","Ceylon Road","Tan Tock Seng Hospital","#5","China","20","fifth-confirmed-imported-case-of-wuhan-coronavirus-infection-in-singapore-27Jan"]]];
-				eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('c Q=1y.1I.1J();m(Q.1E("?")>0){c 1B=Q.1N(0,Q.1E("?"));1y.2n.23({},25.26,1B)}c Y=L.2m([1.1v,1u.2e],[1.16,1w.1x]).1K();c f=L.f(\'1L\').1F([Y.x,Y.y],12);c v=L.1U(\'J://1Q-{s}.1T.E/1S/1R/{z}/{x}/{y}.1V\',{1Z:1j,1Y:19,1W:11});f.1P([[1.1v,1u.1G],[1.16,1w.1x]]);v.A(f);c T=L.p.X({V:[20,20],R:\'1z\',S:\'1z\'});c Z=L.p.X({V:[20,20],R:\'1t\',S:\'1t\'});c 13=L.p.X({V:[20,20],R:\'1A\',S:\'1A\'});N(c i=0;i<9.C;i++){m(9[i][2]=="T"){L.h([9[i][0],9[i][1]],{p:T,n:i,k:9[i][10],1q:2g}).M("<b>P:</b> "+9[i][8]+"<d><b>1n:</b> "+9[i][3]+"<d><b>1m:</b> "+9[i][4]+"<d><b>1r:</b> "+9[i][5]+"<d><b>1s:</b> "+9[i][6]+"<d><b>K:</b> "+9[i][7]+"<d><b>14: <a 15=\'J://1f.1c.17.E/18-1a/1d/"+9[i][11]+"\' g=\'1b\'>1e W U</a></b>").A(f).q(\'G\',j(e){r(e.g.l.n,e.g.l.k)})}H m(9[i][2]=="Z"){L.h([9[i][0],9[i][1]],{p:Z,n:i,k:9[i][10],1q:2j}).M("<b>P:</b> "+9[i][8]+"<d><b>1n:</b> "+9[i][3]+"<d><b>1m:</b> "+9[i][4]+"<d><b>1r:</b> "+9[i][5]+"<d><b>1s:</b> "+9[i][6]+"<d><b>K:</b> "+9[i][7]+"<d><b>14: <a 15=\'J://1f.1c.17.E/18-1a/1d/"+9[i][11]+"\' g=\'1b\'>1e W U</a></b>").A(f).q(\'G\',j(e){r(e.g.l.n,e.g.l.k)})}H{m(9[i][6]=="B"){L.h([9[i][0],9[i][1]],{p:13,n:i,k:9[i][5]}).M("<b>1p 1o P:</b> "+9[i][3]+"<d><b>K:</b> "+9[i][4]).A(f).q(\'G\',j(e){r(e.g.l.n,e.g.l.k)})}H{L.h([9[i][0],9[i][1]],{p:13,n:i,k:9[i][5]}).M("<b>1p 1o P:</b> "+9[i][3]+"<d><b>K:</b> "+9[i][4]+"<d><b>14: <a 15=\'J://1f.1c.17.E/18-1a/1d/"+9[i][6]+"\' g=\'1b\'>1e W U</a></b>").A(f).q(\'G\',j(e){r(e.g.l.n,e.g.l.k)})}}}f.q(\'22\',j(e){r("B","B");N(c i=0;i<o.C;i++){o[i].1X()}o=[];O=1D;v.1l(1)});c o=[];c O=1D;j r(I,1k){m(I=="B"){$(".u-h-t > w").1g("1h","1")}H{$(".u-h-t > w").D(I).1H().1g("1h","0.1")}m(1k!="B"){c F=1k.1O(",");N(c i=0;i<F.C;i++){$(".u-h-t > w").D(1C(F[i])).1g("1h","1");21{o.2i(2l 2k($(".u-h-t > w").D(I)[0],$(".u-h-t > w").D(1C(F[i]))[0],{2d:1j,R:\'28\',2a:\'2c\',2h:\'2b\'}))}29(27){}}O=1j;v.1l(0.2)}}f.q(\'24\',j(e){1i()});f.q(\'2f\',j(e){1i()});j 1i(){m(o.C>0){N(c i=0;i<o.C;i++){o[i].1M()}}m(O){v.1l(0.2)}}',62,148,'|||||||||data|||var|br||map|target|marker||function|ridx|options|if|idx|theLines|icon|on|toggleHideMarkers||pane|leaflet|basemap|div||||addTo|none|length|eq|sg|rIdx|click|else|markerIdx|https|Visited||bindPopup|for|isClicked|Case|uri|color|fillColor|newCase|Health|iconSize|Of|pulse|center|oldCase||||etcCase|Source|href||gov|news||highlights|_blank|moh|details|Ministry|www|css|opacity|mapEvents|true|relatedIdx|setOpacity|Gender|Age|To|Related|zIndexOffset|From|Stayed|purple|104|56073|103|502|window|red|white|clean_uri|parseInt|false|indexOf|setView|1147|siblings|location|toString|getCenter|mapdiv|position|substring|split|setMaxBounds|maps|Grey|v3|onemap|tileLayer|png|minZoom|remove|maxZoom|detectRetina||try|popupclose|replaceState|zoomend|document|title|ex|black|catch|startSocket|arc|bottom|dash|11475|moveend|999|path|push|555|LeaderLine|new|bounds|history'.split('|'),0,{}))
-		    });
+				document.getElementById('datePicker').value = moment().format('YYYY-MM-DD');
+				document.getElementById('timePicker').value = moment().format("HH:mm");
+			});
 		</script>
 	</head>
 	<body>
-		 
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+ 
+		<script>
+			$(document).ready(function(){
+				document.getElementById('datePicker').value = moment().format('YYYY-MM-DD');
+				document.getElementById('timePicker').value = moment().format("HH:mm");
+			});
+		</script> 
+
+	<form action="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc7jZ8A4WeijukhNfxgXYrjS9Qt8UbuzcCcDJn7gZaMzOw9vw/formResponse" target="_self" method="POST" id="mG61Hd">
+		<input type="text" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="item" aria-describedby="i.desc.1897964019 i.err.1897964019" name="entry.333478349" value="" dir="auto" data-initial-dir="auto" data-initial-value="">
+		<input type="text" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="comments" aria-describedby="i.desc.1249966876 i.err.1249966876" name="entry.1373228244" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+		<input type="email" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="email" aria-describedby="i.desc.1390464321 i.err.1390464321" name="entry.1054961902" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+		<input type="text" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="postalcode" aria-describedby="i.desc.184113030 i.err.184113030" name="entry.295006785" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+		<input type="text" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="mailbox" aria-describedby="i.desc.928328055 i.err.928328055" name="entry.1453636306" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+		<input type="hidden" name="entry.748567812_day" id="datePicker" jsname="L9xHkb_day" value="" > <!-- date -->
+		<input type="hidden" name="entry.211595534_minute" id="timePicker" jsname="L9xHkb_minute" value="" >
+		<button type="button" value="submit" class="btn-block">SUBMIT</button>
+	</form>
 	</body>
 </html>

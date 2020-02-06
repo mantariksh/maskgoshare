@@ -25,15 +25,22 @@
         <meta name="author" content="better.sg">
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+       
+
         <script type="text/javascript">
             $(document).ready(function(){
-            $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1', function(data) {
-            var template = Handlebars.compile($('#item-template').html())
-            $('#requestlist').html(template(data.sheet1))
+                $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1', function(data) {
+                    var template = Handlebars.compile($('#item-template').html())
+                    $('#requestlist').html(template(data.formResponses1))
+                })
+                // HandlebarsIntl.registerWith(Handlebars);
             })
-            })
+           
+
  
-</script>
+        </script>        
+        
         <script id="item-template" type="text/x-handlebars-template">
             <table class="table"> 
                 <thead> 
@@ -49,7 +56,7 @@
                  
                 {{#each this}}
                 <tr> 
-                    <td>{{date}}</td> 
+                    <td>{{ timestamp}}</td> 
                     <td>{{item}}</td> 
                     <td>{{comments}}</td> 
                     <td>S({{postalcode}})</td> 
@@ -62,7 +69,7 @@
         <script type="text/javascript">
             $(document).ready(async function(){
                 // Get latitude/longitude coordinates of a postal code from OneMap.
-                let getCoords = async (postalCode) => {
+                let getCoords = async (postalcode) => {
                     const onemapRes = 
                         await fetch(
                             "https://developers.onemap.sg/commonapi/search?searchVal=" + 
@@ -75,7 +82,8 @@
                 };
                 // TODO: Get coordinates of request at the time that it is made and store
                 // it in the Google Sheet.
-                $('#submitrequest').submit(function(e) {
+                /*
+                 $('#submitrequest').submit(function(e) {
                     e.preventDefault();
                     let form = $(this);
                     $.ajax({
@@ -100,23 +108,24 @@
                         }
                     });
                 });
+                */
                 // When the page loads, store all the request data and get the
                 // coordinates of each request.
                 // TODO: Edit Google Sheet to store latitude and longitude so that
                 // we don't have the query the API every time the page is loaded.
                 const allDataRes = await fetch(
-                    "https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1"
+                    "https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1"
                 );
                 const allDataJson = await allDataRes.json();
-                const allData = allDataJson['sheet1'];
+                const allData = allDataJson['formResponses1'];
                 let coords = [];
                 for (let request of allData) {
                     const postalCode = request.postalcode;
                     try {
-                        [lat, lng] = await getCoords(postalCode);
+                        [lat, lng] = await getCoords(postalcode);
                         coords.push({...request, lat, lng});
                     } catch(e) {
-                        console.log("invalid postal code: " + postalCode);
+                        console.log("invalid postal code: " + postalcode);
                     }
                 }
                 $('#searchpostalcodeform').submit(async function(e) {
@@ -139,9 +148,9 @@
                         // If we fail to get the coordinates of the searched postal code (e.g. if
                         // invalid postal code is entered), revert to default behaviour, i.e. search
                         // returned no results.
-                        $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1?postalcode='+$('#searchpostalcode').val(), function(data) {
+                        $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1?postalcode='+$('#searchpostalcode').val(), function(data) {
                             var template = Handlebars.compile($('#searchresults').html())
-                            $('#requestsearch').html(template(data.sheet1))
+                            $('#requestsearch').html(template(data.formResponses1))
                         });
                     }
                 });
@@ -156,7 +165,7 @@
                                     <th>Date</th> 
                                     <th>Request</th> 
                                     <th>Remarks</th> 
-                                    <th>Postal Code / distance</th> 
+                                    <th>Postal Code</th> 
                                 </tr>                                 
                             </thead>                             
                             <tbody >
@@ -164,7 +173,7 @@
                              
                             {{#each this}}
                             <tr> 
-                                <td>{{date}}</td> 
+                                <td>{{timestamp}}</td> 
                                 <td>{{item}}</td> 
                                 <td>{{comments}}</td> 
                                 <td>S({{postalcode}}) </td> 
@@ -190,41 +199,49 @@
                 <div class="col-md-6">
                     <h3><b>I can help someone</b></h3> 
                     <p>If you have more than you need, please consider helping a neighbour. You can browse through the requests and just drop off the supplies in their mailbox, or contact them to collect it from you.</p>
-                    <form id="searchpostalcodeform" action="https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1"> 
+                    <form id="searchpostalcodeform" action="https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1"> 
                         <div class="form-group"> 
                             <input type="text" class="form-control" id="searchpostalcode" placeholder="Enter your postal code"> 
                         </div>                         
                         <button type="submit" class="btn btn-block btn-dark" value="Search Requests">Search Requests</button>
                         <div id="requestlist"></div>                                          
                     </form>                     
-                    Search function is still work-in-progress.                            
-                    <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1WsR_4uxrSDxYgdlqcMwYhtVQiWfnxLv5" width="100%" height="480"></iframe>
-                    
+                    Search function is still work-in-progress.                                                            
                     <div id="requestlist"></div>                     
-                    <div id="requestsearch"></div>                     
+                    <div id="requestsearch"></div>   
+                    <hr>
+                    This is a map of all 1-bedroom and 2-bedroom HDB rental flats. Individuals or families staying here may benefit from a little love and support. 
+                    Buildings with 1-bedroom flats are highlighted in red.   <br/>               
+                    <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1WsR_4uxrSDxYgdlqcMwYhtVQiWfnxLv5" width="100%" height="480"></iframe>
                 </div>
                 <div class="col-md-6 bg-clouds">
                     <h3><b>I need some supplies</b></h3> 
                     <p>If you really have a need for emergency supplies and would not mind some help from a neighbour, please fill in your request below and someone will hopefully get in touch.</p>
-                    <form id="submitrequest" action="https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/sheet1">
-                        <div class="form-group"> 
-                            <input type="text" class="form-control" name="item" id="item" placeholder="Item you need and quantity"> 
+                    
+                    <form action="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc7jZ8A4WeijukhNfxgXYrjS9Qt8UbuzcCcDJn7gZaMzOw9vw/formResponse" target="_self" method="POST" id="mG61Hd">
+                                                                        
+                            <div class="form-group"> 
+                                <input type="text" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="item" aria-describedby="i.desc.1897964019 i.err.1897964019" name="entry.333478349" value="" dir="auto" data-initial-dir="auto" data-initial-value="" class="form-control" id="item" placeholder="Item you need and quantity">                               
+                        </div>
+                        <div class="form-group">                             
+                            <input type="text" class="form-control" id="comments" placeholder="Reason or remarks" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="comments" aria-describedby="i.desc.1249966876 i.err.1249966876" name="entry.1373228244" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+                            
                         </div>
                         <div class="form-group"> 
-                            <input type="text" class="form-control" name="comments" id="comments" placeholder="Reason or remarks"> 
+                            <input type="email" class="form-control" id="email" placeholder="Your email address" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="email" aria-describedby="i.desc.1390464321 i.err.1390464321" name="entry.1054961902" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">                            
                         </div>
                         <div class="form-group"> 
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your email address"> 
+                            <input type="text" class="form-control" id="postalcode" placeholder="Your Postal Code" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="postalcode" aria-describedby="i.desc.184113030 i.err.184113030" name="entry.295006785" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+                            
                         </div>
-                        <div class="form-group"> 
-                            <input type="text" class="form-control" name="postalcode" id="postalcode" placeholder="Your Postal Code"> 
-                        </div>
-                        <div class="form-group"> 
-                            <input type="text" class="form-control" name="mailbox" id="mailbox" placeholder="Your unit number">
+                        <div class="form-group">                             
+                            <input type="text" class="form-control"   id="mailbox" placeholder="Your unit number" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="mailbox" aria-describedby="i.desc.928328055 i.err.928328055" name="entry.1453636306" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
                             <label class="control-label small">Your unit number will be shown to people who are willing to help.</label>                             
                         </div>                         
-                        <button type="submit" class="btn btn-block btn-info">Submit Request
-</button>                         
+                        
+                        
+                            
+                        <button type="submit" class="btn btn-block btn-info">Submit Request</button>                         
                     </form>                     
                     <div id="submitrequest-success" style="display: none;">
                         Thanks - we've added your request to the list
