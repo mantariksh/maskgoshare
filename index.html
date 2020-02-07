@@ -26,8 +26,6 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
-       
-
         <script type="text/javascript">
             $(document).ready(function(){
                 $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1', function(data) {
@@ -39,8 +37,7 @@
            
 
  
-        </script>        
-        
+        </script>         
         <script id="item-template" type="text/x-handlebars-template">
             <table class="table"> 
                 <thead> 
@@ -191,58 +188,62 @@
         <section id="content-1-1" class="bg-white min-height-300px min-height-xs-300px content-1-1 content-block">
             <div class="container text-center">
                 <h1>Mask GO SHARE</h1>
-                <p class="lead">Offer to help your neighbours. Request for emergency supplies.</p>
+                <p class="lead font-weight-bold">Offer to help your neighbours. Request for emergency supplies.</p>
+                <div class="row justify-content-center">
+                    <a type="button" class="btn col-sm-4 mr-2 btn-info" href="#help">i can help</a>
+                    <a type="button" class="btn col-sm-4 btn-danger" href="#need">I need supplies</a>
+                </div>
             </div>
         </section>
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
+                    <a name="help"></a>
                     <h3><b>I can help someone</b></h3> 
-                    <p>If you have more than you need, please consider helping a neighbour. You can browse through the requests and just drop off the supplies in their mailbox, or contact them to collect it from you.</p>
+                    <p>If you have more than you need, please consider helping a neighbour. You can browse through the requests and just drop off the supplies in their mailbox, or contact them to collect it from you. It's a small gesture that makes a big difference when people are anxious.</p>
                     <form id="searchpostalcodeform" action="https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1"> 
                         <div class="form-group"> 
                             <input type="text" class="form-control" id="searchpostalcode" placeholder="Enter your postal code"> 
                         </div>                         
                         <button type="submit" class="btn btn-block btn-dark" value="Search Requests">Search Requests</button>
-                        <div id="requestlist"></div>                                          
+                        <div id="requestlist"></div>                         
                     </form>                     
                     Search function is still work-in-progress.                                                            
                     <div id="requestlist"></div>                     
-                    <div id="requestsearch"></div>   
+                    <div id="requestsearch"></div>                     
                     <hr>
-                    This is a map of all 1-bedroom and 2-bedroom HDB rental flats. Individuals or families staying here may benefit from a little love and support. If you want to drop off some supplies with them, find the nearest blocks to you.
-                    Buildings with 1-bedroom flats are highlighted in red.   <br/>               
-                    <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1WsR_4uxrSDxYgdlqcMwYhtVQiWfnxLv5" width="100%" height="480"></iframe>
+                    <br>
                 </div>
+                <div class="col-md-6">
+                    <h3>Help a needy neighbour</h3> 
+                    <p>This is a map of all 1-bedroom and 2-bedroom HDB rental flats. Individuals or families staying here may benefit from a little love and support. If you want to drop off some supplies with them, find the nearest blocks to you and consider going door-to-door or leaving a gift in their mailbox. <br>Buildings with 1-bedroom flats are highlighted in red.</p>
+                    <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1WsR_4uxrSDxYgdlqcMwYhtVQiWfnxLv5" width="100%" height="480"></iframe>                     
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6 bg-clouds">
+                    <a name="need"></a>
                     <h3><b>I need some supplies</b></h3> 
                     <p>If you really have a need for emergency supplies and would not mind some help from a neighbour, please fill in your request below and someone will hopefully get in touch.</p>
                     <script>var submitted=false;</script>
-                            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='thanks.html';}"></iframe>
-
-                    <form action="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc7jZ8A4WeijukhNfxgXYrjS9Qt8UbuzcCcDJn7gZaMzOw9vw/formResponse"  target="hidden_iframe" onsubmit="submitted=true;" method="POST" id="mG61Hd">
-                                                                        
-                            <div class="form-group"> 
-                                <input type="text" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="item" aria-describedby="i.desc.1897964019 i.err.1897964019" name="entry.333478349" value="" dir="auto" data-initial-dir="auto" data-initial-value="" class="form-control" id="item" placeholder="Item you need and quantity">                               
-                        </div>
-                        <div class="form-group">                             
-                            <input type="text" class="form-control" id="comments" placeholder="Reason or remarks" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="comments" aria-describedby="i.desc.1249966876 i.err.1249966876" name="entry.1373228244" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
-                            
+                    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='thanks.html';}"></iframe>
+                    <form action="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc7jZ8A4WeijukhNfxgXYrjS9Qt8UbuzcCcDJn7gZaMzOw9vw/formResponse" target="hidden_iframe" onsubmit="submitted=true;" method="POST" id="mG61Hd">
+                        <div class="form-group"> 
+                            <input type="text" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="item" aria-describedby="i.desc.1897964019 i.err.1897964019" name="entry.333478349" value="" dir="auto" data-initial-dir="auto" data-initial-value="" class="form-control" id="item" placeholder="Item you need and quantity"> 
                         </div>
                         <div class="form-group"> 
-                            <input type="email" class="form-control" id="email" placeholder="Your email address" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="email" aria-describedby="i.desc.1390464321 i.err.1390464321" name="entry.1054961902" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">                            
+                            <input type="text" class="form-control" id="comments" placeholder="Reason or remarks" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="comments" aria-describedby="i.desc.1249966876 i.err.1249966876" name="entry.1373228244" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+                        </div>
+                        <div class="form-group"> 
+                            <input type="email" class="form-control" id="email" placeholder="Your email address" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="email" aria-describedby="i.desc.1390464321 i.err.1390464321" name="entry.1054961902" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false"> 
                         </div>
                         <div class="form-group"> 
                             <input type="text" class="form-control" id="postalcode" placeholder="Your Postal Code" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="postalcode" aria-describedby="i.desc.184113030 i.err.184113030" name="entry.295006785" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
-                            
                         </div>
-                        <div class="form-group">                             
-                            <input type="hidden" class="form-control"   id="mailbox" placeholder="Your unit number" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="mailbox" aria-describedby="i.desc.928328055 i.err.928328055" name="entry.1453636306" value="null" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+                        <div class="form-group"> 
+                            <input type="hidden" class="form-control" id="mailbox" placeholder="Your unit number" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="mailbox" aria-describedby="i.desc.928328055 i.err.928328055" name="entry.1453636306" value="null" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
                             <!-- <label class="control-label small">Your unit number will be shown to people who are willing to help.</label>                             -->
                         </div>                         
-                        
-                        
-                            
                         <button type="submit" class="btn btn-block btn-info">Submit Request</button>                         
                     </form>                     
                     <div id="submitrequest-success" style="display: none;">

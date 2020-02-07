@@ -1,0 +1,260 @@
+<!DOCTYPE html> 
+<html lang="en" style="height:100%;">
+    <head> 
+        <meta charset="utf-8"> 
+        <title>MaskGoShare - by better.sg</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="keywords" content="masks coronavirus wuhan singapore"/>
+        <meta name="description" content="Mask Go Share - by better.sg"/>
+        <link rel="shortcut icon" href="ico/favicon.png"> 
+        <!-- Core CSS -->         
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet">
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet">
+        <!-- Style Library -->         
+        <link href="css/style-library-1.css" rel="stylesheet">
+        <link href="css/plugins.css" rel="stylesheet">
+        <link href="css/blocks.css" rel="stylesheet">
+        <link href="css/custom.css" rel="stylesheet">
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->         
+        <!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->         
+        <meta name="author" content="better.sg">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1', function(data) {
+                    var template = Handlebars.compile($('#item-template').html())
+                    $('#requestlist').html(template(data.formResponses1))
+                })
+                // HandlebarsIntl.registerWith(Handlebars);
+            })
+           
+
+ 
+        </script>         
+        <script id="item-template" type="text/x-handlebars-template">
+            <table class="table"> 
+                <thead> 
+                    <tr> 
+                        <th>Date</th> 
+                        <th>Request</th> 
+                        <th>Remarks</th> 
+                        <th>Postal Code</th> 
+                    </tr>                                 
+                </thead>                             
+                <tbody >
+                    
+                 
+                {{#each this}}
+                <tr> 
+                    <td>{{ timestamp}}</td> 
+                    <td><a target="_top" href="mailto:{{email}}?subject=MaskGoShare">{{item}}</a></td> 
+                    <td>{{comments}}</td> 
+                    <td>S({{postalcode}})</td> 
+                </tr>                   
+              
+                {{/each}}
+                </tbody>                             
+            </table>    
+        </script>         
+        <script type="text/javascript">
+            $(document).ready(async function(){
+                // Get latitude/longitude coordinates of a postal code from OneMap.
+                let getCoords = async (postalcode) => {
+                    const onemapRes = 
+                        await fetch(
+                            "https://developers.onemap.sg/commonapi/search?searchVal=" + 
+                            postalCode + 
+                            "&getAddrDetails=N&returnGeom=Y&pageNum=1");
+                    const onemapJson = await onemapRes.json();
+                    const lat = parseFloat(onemapJson['results'][0]['LATITUDE']);
+                    const lng = parseFloat(onemapJson['results'][0]['LONGITUDE']);
+                    return [lat, lng];
+                };
+                // TODO: Get coordinates of request at the time that it is made and store
+                // it in the Google Sheet.
+                /*
+                 $('#submitrequest').submit(function(e) {
+                    e.preventDefault();
+                    let form = $(this);
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        url: form.attr('action'),
+                        data: {
+                        sheet1: {
+                            item: $('#item').val(),
+                            comments: $('#comments').val(),
+                            email: $('#email').val(),
+                            postalcode: $('#postalcode').val(),
+                            mailbox: $('#mailbox').val(),
+                        } 
+                        },
+                        success: function() {
+                        $('#submitrequest-success').show();
+                        $('#submitrequest').hide();
+                        },
+                        error: function(xhr, res, text) {
+                        alert(text);
+                        }
+                    });
+                });
+                */
+                // When the page loads, store all the request data and get the
+                // coordinates of each request.
+                // TODO: Edit Google Sheet to store latitude and longitude so that
+                // we don't have the query the API every time the page is loaded.
+                const allDataRes = await fetch(
+                    "https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1"
+                );
+                const allDataJson = await allDataRes.json();
+                const allData = allDataJson['formResponses1'];
+                let coords = [];
+                for (let request of allData) {
+                    const postalCode = request.postalcode;
+                    try {
+                        [lat, lng] = await getCoords(postalcode);
+                        coords.push({...request, lat, lng});
+                    } catch(e) {
+                        console.log("invalid postal code: " + postalcode);
+                    }
+                }
+                $('#searchpostalcodeform').submit(async function(e) {
+                    e.preventDefault();
+                    const postalCode = $('#searchpostalcode').val();
+                    $('#requestlist').hide();
+                    //$('#searchpostalcodeform').hide();
+                    $('#requestsearch').show();  
+                    try {
+                        [lat, lng] = await getCoords(postalCode);                
+                        coords.map(obj => {
+                            // Squared distance from searched postal code to request (x^2 + y^2) 
+                            // unclear what the unit of distance is between two lat longs
+                            obj.distance = Math.round(100000000 * (Math.pow(obj.lat - lat, 2) + Math.pow(obj.lng - lng, 2)));
+                        })
+                        coords.sort((a, b) => a.distance - b.distance);
+                        const template = Handlebars.compile($('#searchresults').html());
+                        $('#requestsearch').html(template(coords));
+                    } catch(e) {
+                        // If we fail to get the coordinates of the searched postal code (e.g. if
+                        // invalid postal code is entered), revert to default behaviour, i.e. search
+                        // returned no results.
+                        $.getJSON('https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1?postalcode='+$('#searchpostalcode').val(), function(data) {
+                            var template = Handlebars.compile($('#searchresults').html())
+                            $('#requestsearch').html(template(data.formResponses1))
+                        });
+                    }
+                });
+            });
+        </script>         
+        <script id="searchresults" type="text/x-handlebars-template">
+                    <div class="requestsearch">
+                        Nearest neighbour:
+                        <table class="table"> 
+                            <thead> 
+                                <tr> 
+                                    <th>Date</th> 
+                                    <th>Request</th> 
+                                    <th>Remarks</th> 
+                                    <th>Postal Code</th> 
+                                </tr>                                 
+                            </thead>                             
+                            <tbody >
+                                
+                             
+                            {{#each this}}
+                            <tr> 
+                                <td>{{timestamp}}</td> 
+                                <td><a target="_top" href="mailto:{{email}}">{{item}}</a></td> 
+                                <td>{{comments}}</td> 
+                                <td>S({{postalcode}}) </td> 
+                            </tr>                   
+                          
+                            {{/each}}
+                            </tbody>                             
+                        </table>    
+                        
+                      
+                    </div>
+                    </script>         
+    </head>     
+    <body data-spy="scroll" data-target="nav">
+        <section id="content-1-1" class="bg-white min-height-300px min-height-xs-300px content-1-1 content-block">
+            <div class="container text-center">
+                <h1>Mask GO SHARE</h1>
+                <p class="lead font-weight-bold">Offer to help your neighbours. Request for emergency supplies.</p>
+                <div class="row justify-content-center">
+                    <a type="button" class="btn col-sm-4 mr-2 btn-info" href="#help">i can help</a>
+                    <a type="button" class="btn col-sm-4 btn-danger" href="#need">I need supplies</a>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <a name="help"></a>
+                    <h3><b>I can help someone</b></h3> 
+                    <p>If you have more than you need, please consider helping a neighbour. You can browse through the requests and just drop off the supplies in their mailbox, or contact them to collect it from you. It's a small gesture that makes a big difference when people are anxious.</p>
+                    <form id="searchpostalcodeform" action="https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1"> 
+                        <div class="form-group"> 
+                            <input type="text" class="form-control" id="searchpostalcode" placeholder="Enter your postal code"> 
+                        </div>                         
+                        <button type="submit" class="btn btn-block btn-dark" value="Search Requests">Search Requests</button>
+                        <div id="requestlist"></div>                         
+                    </form>                     
+                    Search function is still work-in-progress.                                                            
+                    <div id="requestlist"></div>                     
+                    <div id="requestsearch"></div>                     
+                    <hr>
+                    <br>
+                </div>
+                <div class="col-md-6">
+                    <h3>Help a needy neighbour</h3> 
+                    <p>This is a map of all 1-bedroom and 2-bedroom HDB rental flats. Individuals or families staying here may benefit from a little love and support. If you want to drop off some supplies with them, find the nearest blocks to you. Buildings with 1-bedroom flats are highlighted in red.</p>
+                    <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1WsR_4uxrSDxYgdlqcMwYhtVQiWfnxLv5" width="100%" height="480"></iframe>                     
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 bg-clouds">
+                    <a name="need"></a>
+                    <h3><b>I need some supplies</b></h3> 
+                    <p>If you really have a need for emergency supplies and would not mind some help from a neighbour, please fill in your request below and someone will hopefully get in touch.</p>
+                    <script>var submitted=false;</script>
+                    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='thanks.html';}"></iframe>
+                    <form action="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc7jZ8A4WeijukhNfxgXYrjS9Qt8UbuzcCcDJn7gZaMzOw9vw/formResponse" target="hidden_iframe" onsubmit="submitted=true;" method="POST" id="mG61Hd">
+                        <div class="form-group"> 
+                            <input type="text" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="item" aria-describedby="i.desc.1897964019 i.err.1897964019" name="entry.333478349" value="" dir="auto" data-initial-dir="auto" data-initial-value="" class="form-control" id="item" placeholder="Item you need and quantity"> 
+                        </div>
+                        <div class="form-group"> 
+                            <input type="text" class="form-control" id="comments" placeholder="Reason or remarks" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="comments" aria-describedby="i.desc.1249966876 i.err.1249966876" name="entry.1373228244" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+                        </div>
+                        <div class="form-group"> 
+                            <input type="email" class="form-control" id="email" placeholder="Your email address" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="email" aria-describedby="i.desc.1390464321 i.err.1390464321" name="entry.1054961902" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false"> 
+                        </div>
+                        <div class="form-group"> 
+                            <input type="text" class="form-control" id="postalcode" placeholder="Your Postal Code" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="postalcode" aria-describedby="i.desc.184113030 i.err.184113030" name="entry.295006785" value="" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+                        </div>
+                        <div class="form-group"> 
+                            <input type="hidden" class="form-control" id="mailbox" placeholder="Your unit number" jsname="YPqjbf" autocomplete="off" tabindex="0" aria-label="mailbox" aria-describedby="i.desc.928328055 i.err.928328055" name="entry.1453636306" value="null" dir="auto" data-initial-dir="auto" data-initial-value="" aria-invalid="false">
+                            <!-- <label class="control-label small">Your unit number will be shown to people who are willing to help.</label>                             -->
+                        </div>                         
+                        <button type="submit" class="btn btn-block btn-info">Submit Request</button>                         
+                    </form>                     
+                    <div id="submitrequest-success" style="display: none;">
+                        Thanks - we've added your request to the list
+</div>                     
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>         
+        <script type="text/javascript" src="js/plugins.js"></script>
+        <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="js/bskit-scripts.js"></script>         
+    </body>     
+</html>

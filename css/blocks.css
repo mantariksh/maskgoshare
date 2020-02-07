@@ -690,9 +690,9 @@ Version: 1.0 */
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    background-image: url('../images/virus.jpg');
     background-repeat: no-repeat;
     background-position: center top;
+    background-image: url('../images/mask.jpg');
 }
 
 .content-1-1 .container {

@@ -981,7 +981,7 @@ p .btn {
 
 /* Button INFO */
 .btn.btn-info {
-    background: #3498db;
+    background: #3498db !important;
     box-shadow: 0 2px #2980b9;
 }
 
