@@ -1,1 +1,8 @@
 /* Put your custom styles here */
+footerbg {
+    background: linear-gradient(179deg, rgb(221, 214, 243) 0%, rgb(255, 255, 255) 1.47059%, rgb(250, 172, 168) 100%);
+}
+
+footerbg {
+    background-color: #a5a5a5;
+}

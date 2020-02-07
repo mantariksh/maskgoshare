@@ -188,14 +188,20 @@
         <section id="content-1-1" class="bg-white min-height-300px min-height-xs-300px content-1-1 content-block">
             <div class="container text-center">
                 <h1>Mask GO SHARE</h1>
-                <p class="lead font-weight-bold">Offer to help your neighbours. Request for emergency supplies.</p>
+                <h4 class="lead font-weight-bold">Offer to help your neighbours. Request for emergency supplies.</h4>
+                <p> In the face of the nCov virus, let’s do our part to help each other. If you have an extra mask or hand-sanitiser, you can gift it to someone near you who might need it. If you’re in need, you can ask for help below. </p>
+                <div class="row justify-content-center">
+                    <a type="button" class="btn col-sm-4 mr-2 btn-info" href="#help">i can help</a>
+                    <a type="button" class="btn col-sm-4 btn-danger" href="#need">I need supplies</a>
+                </div>
             </div>
         </section>
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
+                    <a name="help"></a>
                     <h3><b>I can help someone</b></h3> 
-                    <p>If you have more than you need, please consider helping a neighbour. You can browse through the requests and just drop off the supplies in their mailbox, or contact them to collect it from you.</p>
+                    <p>If you have more supplies than you need for your family, please consider gifting it to a neighbour who might need it more. You can browse through the requests below and drop off the supplies in their mailbox or contact them to collect it from you. Once you've donated your item, please <a href="mailto:gaurav@better.sg?subject=MaskGoShare">let us know</a> so we can remove it from the database.  It's a small gesture that makes a big difference when people are anxious.</p>
                     <form id="searchpostalcodeform" action="https://v2-api.sheety.co/3035041ee3fdb393cc81ecd0720b6a63/maskGoShare/formResponses1"> 
                         <div class="form-group"> 
                             <input type="text" class="form-control" id="searchpostalcode" placeholder="Enter your postal code"> 
@@ -210,15 +216,16 @@
                     <br>
                 </div>
                 <div class="col-md-6">
-                    <h3>Help a needy neighbour</h3> 
-                    <p>This is a map of all 1-bedroom and 2-bedroom HDB rental flats. Individuals or families staying here may benefit from a little love and support. If you want to drop off some supplies with them, find the nearest blocks to you. Buildings with 1-bedroom flats are highlighted in red.</p>
+                    <h3>Go the Extra Mile</h3> 
+                    <p>This is a map of all 1-bedroom and 2-bedroom HDB rental flats. Individuals or families staying here may benefit from a little love and support. If you want to drop off some supplies with them, find the nearest blocks to you and consider going door-to-door or leaving a gift in their mailbox. <br>Buildings with 1-bedroom flats are highlighted in red.</p>
                     <iframe src="https://www.google.com/maps/d/u/1/embed?mid=1WsR_4uxrSDxYgdlqcMwYhtVQiWfnxLv5" width="100%" height="480"></iframe>                     
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 bg-clouds">
+                    <a name="need"></a>
                     <h3><b>I need some supplies</b></h3> 
-                    <p>If you really have a need for emergency supplies and would not mind some help from a neighbour, please fill in your request below and someone will hopefully get in touch.</p>
+                    <p>If you need supplies for you and your family, you ask for help by leaving a request below. Please be patient and understanding, we hope there will be someone who can extend the help you need. </p>
                     <script>var submitted=false;</script>
                     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='thanks.html';}"></iframe>
                     <form action="https://docs.google.com/forms/u/1/d/e/1FAIpQLSc7jZ8A4WeijukhNfxgXYrjS9Qt8UbuzcCcDJn7gZaMzOw9vw/formResponse" target="hidden_iframe" onsubmit="submitted=true;" method="POST" id="mG61Hd">
@@ -244,8 +251,17 @@
                         Thanks - we've added your request to the list
 </div>                     
                 </div>
+                <div class="col-md-6">
+                    <h3>Visit a Collection Centre</h3> 
+                    <p>If you want to collect masks from the official Government supply, please visit <a href="https://maskgowhere.sg" target="_blank">maskgowhere.sg</a></p>
+                    <p>If you wish to donate your masks to an official entity that can help redistribute the extra masks to our most vulnerable people, please visit <a href="https://contribute.sg">contribute.sg</a></p> 
+                </div>
             </div>
         </div>
+        <footer class="text-center">
+            <p class="text-center">This is a #techforgood product by <a href="https://better.sg" target="_blank">better.sg</a>. We solve social problems with technology. Find out more and join us!</p>
+            <img src="images/bettersgmasterlogo.png" class="text-center"/>
+        </footer>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>         
         <script type="text/javascript" src="js/plugins.js"></script>
         <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
